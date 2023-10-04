@@ -1,0 +1,15 @@
+{
+    "name": "truer/mvc-framework",
+    "authors": [
+        {
+            "name": "tien",
+            "email": "tienviperds@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
