@@ -11,14 +11,23 @@ class Router
         ]
     ];
     public Request $request;
-    public function __construct(Request $request)
+    public Response $response;
+    public function __construct(Request $request, Response $response)
     {
         $this->request = $request;
+        $this->response = $response;
     }
+
+
 
     public function get($path, $callback)
     {
         $this->routes['get'][$path] = $callback;
+    }
+
+    public function post($path, $callback)
+    {
+        $this->routes['post'][$path] = $callback;
     }
 
     public function renderView($view)
@@ -53,6 +62,7 @@ class Router
 
         $callback = $this->routes[$method][$path] ?? false;
         if($callback === false){
+            $this->response->setStatusCode(404);
             return "Not found";
         }
         // this is view file
