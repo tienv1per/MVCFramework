@@ -23,12 +23,27 @@ class Router
 
     public function renderView($view)
     {
-        include_once __DIR__.'/../views/'.$view.'.php';
+        $layoutContent = $this->layoutContent();
+        $viewContent  = $this->renderOnlyView($view);
+//        echo '<pre>';
+//        var_dump($layoutContent);
+//        echo '</pre>';
+
+        return str_replace('{{content}}', $viewContent, $layoutContent);
     }
 
     public function layoutContent()
     {
-        include_once __DIR__.'';
+        ob_start(); // start output caching
+        include_once Application::$ROOT_DIR."/views/layouts/main.php";
+        return ob_get_clean(); // clear buffer
+    }
+
+    public function renderOnlyView($view)
+    {
+        ob_start(); // start output caching
+        include_once Application::$ROOT_DIR."/views/$view.php";
+        return ob_get_clean(); // clear buffer
     }
 
     public function resolve()
