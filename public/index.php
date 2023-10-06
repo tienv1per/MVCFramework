@@ -15,4 +15,8 @@ $app->router->post('/contact', function (){
     return "Handling submitted data";
 });
 
+$app->router->post('/testapi', function (){
+    return "This API is for only testing purpose";
+});
+
 $app->run();
