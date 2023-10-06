@@ -30,10 +30,10 @@ class Router
         $this->routes['post'][$path] = $callback;
     }
 
-    public function renderView($view)
+    public function renderView($view, $params=[])
     {
         $layoutContent = $this->layoutContent();
-        $viewContent  = $this->renderOnlyView($view);
+        $viewContent  = $this->renderOnlyView($view, $params);
 //        echo '<pre>';
 //        var_dump($layoutContent);
 //        echo '</pre>';
@@ -48,8 +48,15 @@ class Router
         return ob_get_clean(); // clear buffer
     }
 
-    public function renderOnlyView($view)
+    public function renderOnlyView($view, $params=[])
     {
+        foreach ($params as $key => $value){
+            //$key = name => $$key = $name
+            $$key = $value;
+        }
+//        echo '<pre>';
+//        var_dump($params);
+//        echo '</pre>';
         ob_start(); // start output caching
         include_once Application::$ROOT_DIR."/views/$view.php";
         return ob_get_clean(); // clear buffer
@@ -63,8 +70,9 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
         if($callback === false){
             $this->response->setStatusCode(404);
-            return "Not found";
+            return $this->renderView("_404");
         }
+
         // this is view file
         if(is_string($callback)){
             return $this->renderView($callback);
