@@ -18,8 +18,6 @@ class Router
         $this->response = $response;
     }
 
-
-
     public function get($path, $callback)
     {
         $this->routes['get'][$path] = $callback;
@@ -77,6 +75,16 @@ class Router
         if(is_string($callback)){
             return $this->renderView($callback);
         }
+
+        if(is_array($callback)){
+            //same as $callback[0] = new $callback[0]();
+            $instance = new $callback[0]();
+            $callback[0] = $instance;
+        }
+//        echo '<pre>';
+//        var_dump($callback);
+//        echo '</pre>';
+//        exit;
         return call_user_func($callback);
     }
 }

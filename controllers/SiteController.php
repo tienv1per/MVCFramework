@@ -2,23 +2,17 @@
 
 namespace app\controllers;
 
-use app\core\Application;
-use app\core\Request;
-use app\core\Response;
-use app\core\Router;
+use app\core\Controller;
 
-class SiteController
+class SiteController extends Controller
 {
     public function home()
     {
-        $req = new Request();
-        $res = new Response();
-        $router = new Router($req, $res);
         $params = [
             'name' => "TheShyCode"
         ];
 
-        return $router->renderView('home', $params);
+        return $this->render('home', $params);
     }
     public function handleContact()
     {
