@@ -28,9 +28,9 @@ class Router
         $this->routes['post'][$path] = $callback;
     }
 
-    public function renderView($view, $params=[])
+    public function renderView($view, $layout, $params=[])
     {
-        $layoutContent = $this->layoutContent();
+        $layoutContent = $this->layoutContent($layout);
         $viewContent  = $this->renderOnlyView($view, $params);
 //        echo '<pre>';
 //        var_dump($layoutContent);
@@ -39,10 +39,10 @@ class Router
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
 
-    public function layoutContent()
+    public function layoutContent($layout)
     {
         ob_start(); // start output caching
-        include_once Application::$ROOT_DIR."/views/layouts/main.php";
+        include_once Application::$ROOT_DIR."/views/layouts/$layout.php";
         return ob_get_clean(); // clear buffer
     }
 
@@ -63,7 +63,7 @@ class Router
     public function resolve()
     {
         $path = $this->request->getPath();
-        $method = $this->request->getMethod();
+        $method = $this->request->method();
 
         $callback = $this->routes[$method][$path] ?? false;
         if($callback === false){
