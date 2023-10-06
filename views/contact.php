@@ -9,7 +9,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label" style="margin: 20px">Example </label>
-        <input class="form-control" type="text" style="width: 40%; margin: 20px"/>
+        <input class="form-control" type="text" style="width: 40%; margin: 20px" name="example"/>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
